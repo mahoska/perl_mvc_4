@@ -3,7 +3,7 @@ package Models::Validation;
 use strict;
 use warnings FATAL => 'all';
 use Data::Dumper;
-use Email::Valid;
+#use Email::Valid;
 
 sub new
 {
@@ -85,8 +85,21 @@ sub clearEmail
 
     if ($string)
     {
-        my $check = Email::Valid->new();
-        $string = $check->address($string);
+        if ($string !~ /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z0-9]+)(\]?)+$/) 
+        {
+            return 0;
+        }
+        # my $check = Email::Valid->new();
+        #$string = $check->address($string);
+        #$string = 'lamburii@gmail.com';
+        #$string = $self->clearWord($string);
+        $string =~ s/[^-A-Za-z0-9_.@]+?//g;
+        #$string =~ s/^[a-z0-9.]+\@[a-z0-9.-]+$//g;
+        
+        if ($string !~ /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z0-9]+)(\]?)+$/) 
+        {
+            return 0;
+        }
 
         if ($string and length($string) <= 7)
         {
@@ -99,6 +112,7 @@ sub clearEmail
     {
         return 0;
     }
+
 }
 
 # Processing login form data

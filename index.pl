@@ -1,4 +1,5 @@
-#!C:\Dwimperl\perl\bin\perl.exe -w
+#!/usr/bin/perl
+
 
 use strict;
 use warnings;
@@ -47,7 +48,9 @@ my $route = $router->getRoute('route','default/homePage');
 
 my $controller = $route->{'controller'};
 my $action = $route->{'action'};
-
+my $params = $route->{'params'};
+#print "Content-type: text/html; charset=utf-8\n\n";
+ 
 #eval
 #{
      require $controller.".pm";
@@ -58,8 +61,9 @@ my $action = $route->{'action'};
      #if method exists
      if($controller->can($action))
      {
-	$content = $controller->$action();
-	
+    
+         $content = $controller->$action($params);
+
 	 require 'layout.pl';
          print "Content-type: text/html; charset=utf-8\n\n";
          print $loyout;

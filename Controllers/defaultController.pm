@@ -1,31 +1,34 @@
 package Controllers::defaultController;
+use Models::Validation;
 
 use strict;
 use warnings;
-use vars qw(%hash $text2);
 
-use vars qw(@ISA);
+use Data::Dumper;
+use vars qw($content @data);
+
+use vars qw(@ISA);
 use Controller;
+
 @ISA = qw(Controllers::Controller);
 
-sub homePageAction;
+use Models::Articles;
+sub homeAction;
 
-sub new{
+sub new{
     my $class = ref($_[0])||$_[0];
     return bless{}, $class;
 }
 
-sub homePageAction
+sub homeAction
 {
- my ($self) = @_;
- 
- # %hash = ('name'=>'name',
-          # '123'=>'321');
+    my ($self) = @_;
 
- # require "html.pl";
- # #print "Content-type: text/html; charset=utf-8\n\n";
- return "text2";
+    my $model = Models::Articles->new($self->get('model'), $self->get('db'));
+    @data = $model->getAll();
 
+    require 'articles/articles.pl';
+    return $content; 
 }
 
 1;

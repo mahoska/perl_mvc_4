@@ -3,6 +3,6 @@
     <dbType>mysql</dbType>    
     <dbName>user11</dbName>
     <dbHost>localhost</dbHost>
-    <dbUser>root</dbUser>
-    <dbPassword></dbPassword>
+    <dbUser>user11</dbUser>
+    <dbPassword>tuser11</dbPassword>
 </configuration>

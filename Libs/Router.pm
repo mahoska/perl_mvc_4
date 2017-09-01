@@ -42,8 +42,8 @@ sub getRoute{
       {
           @route = split m|/|, $default;       #redirect from default/homePage
       }	
-      
-      %hash_route = ('controller'=>$route[0].'Controller', 'action'=> $route[1].'Action');
+        
+      %hash_route = ('controller'=>$route[0].'Controller', 'action'=> $route[1].'Action', 'params'=>$route[2]);
       return \%hash_route;
       
 }

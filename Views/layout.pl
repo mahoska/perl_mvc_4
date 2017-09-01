@@ -32,10 +32,10 @@ $loyout = <<HTML;
             <li><a href="index.pl?route=security/isUser">Test</a></li>
           </ul>
 
-          <form class="navbar-form navbar-right">
+          <form class="navbar-form navbar-right" action="index.pl?route=auth/login" method="post">
             <div class="form-group">
               <label for="login">Name</label>
-              <input type="text" class="form-control" id="login" placeholder="" name="nickname">
+              <input type="text" class="form-control" id="login" placeholder="" name="login">
             </div>
             <div class="form-group">
               <label for="pass">Email</label>

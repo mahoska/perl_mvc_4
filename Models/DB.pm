@@ -162,13 +162,14 @@ sub execute
 sub getDataHash
 {
     my($self, $query) = @_;
-    return $query->fetchrow_hashref();
-}
+    
+    my @data = (); 
+    while(my $row = $query->fetchrow_hashref())
+    {
+        push @data, $row; 
+    }
 
-sub getDataArray
-{
-    my($self, $query) = @_;
-    return $query->fetchrow_arrayref();
+    return @data;
 }
 
 sub getOne

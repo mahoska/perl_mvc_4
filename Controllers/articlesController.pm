@@ -3,9 +3,12 @@ package Controllers::articlesController;
 use strict;
 use warnings;
 
-use vars qw(@ISA);
+use Data::Dumper;
+
+use vars qw(@ISA $form @data);
 use Controller;
 use Models::Articles;
+use Libs::Request;
 use Time::Piece;
 
 @ISA = qw(Controllers::Controller);
@@ -17,61 +20,67 @@ sub new
 }
 
 
-sub create
+sub createAction
 {
-  my ($self) = @_;
+    my ($self) = @_;
+    my $request = Libs::Request->new();
 
-  if ($request->isPost())
-  {
+    # if ($request->isPost())
+    # {
 
-     %data = (
-         'title'=>  $request->getData('title'),
-         'content'=> $request->getData('content'),
-         'user_id'=> $request->getData('user_id'),
-         'create_at'=> localtime->strftime('%m/%d/%Y')
-     );
+    my %data = (
+        'title'=>  'article',
+        'content'=> 'text',
+        'user_id'=> '1',
+        'date'=> localtime->strftime('%Y-%m-%d')
+    );
 
-     my $model = Models::Users->new($self->get('model'), $self->get('db'));
-     $model->createArticle(\%$data);
-     $url = "http://www.perl.com/CPAN/";
-     print "Location: $url\n\n";
-     exit;
-  }
+    my $model = Models::Articles->new($self->get('model'), $self->get('db'));
+    $model->createArticle(\%data);
+#my $url = "http://www.perl.com/CPAN/";
+#print "Location: $url\n\n";
+#exit;
+#}
 }
 
-sub edit
+sub editAction
 {
-  my ($self) = @_;
-  my ($self, $articleId) = @_;
+    my ($self, $articleId) = @_;
 
-  if ($request->isPost())
-  {
-     %data = (
-         'title'=>  $request->getData('title'),
-         'content'=> $request->getData('content'),
-     );
+    my $model = Models::Articles->new($self->get('model'), $self->get('db'));
+    my $request = Libs::Request->new();
 
-     my $model = Models::Users->new($self->get('model'), $self->get('db'));
-     $model->updateArticle(\%$data, $articleId);
-     $url = "http://www.perl.com/CPAN/";
-     print "Location: $url\n\n";
-     exit;
-  }
+    @data = $model->getOne($articleId);
+
+    if ($request->isPost())
+    {
+        my %data = (
+            'title'=>  $request->getData('title'),
+            'content'=> $request->getData('content'),
+        );
+
+        $model->updateArticle(\%data, $articleId);
+        my $url = "/";
+        print "Location: $url\n\n";
+        exit;
+    }
+    require "articles/edit.pl";
+    return $form;
 }
 
-sub delete
+sub deleteAction
 {
-   my ($self, $articleId) = @_;
+    my ($self, $articleId) = @_;
 
-   if ($articleId)
-   {
-      my $model = Models::Users->new($self->get('model'), $self->get('db'));
-      $model->deleteArticle($articleId);
+    if ($articleId)
+    {
+        my $model = Models::Articles->new($self->get('model'), $self->get('db'));
+        $model->deleteArticle($articleId);
 
-      $url = "http://www.perl.com/CPAN/";
-      print "Location: $url\n\n";
-      exit;
-   }
+        #my $url = "/";
+        #print "Location: $url\n\n";
+        #exit;
+    }
 
 }
 

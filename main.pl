@@ -3,21 +3,23 @@ use strict;
 use warnings FATAL => 'all';
 use Data::Dumper;
 use lib qw(libs);
+use File::Basename qw(dirname);
+use lib dirname(__FILE__).'/Views/';
+use lib dirname(__FILE__).'/Libs/';
+use lib dirname(__FILE__).'/Controllers/';
+use lib dirname(__FILE__).'/Models/';
+use lib dirname(__FILE__).'/Helpers/';
+use Models::Articles;
 
-use Models::Users;
 
-
-my $db = Models::Users->new();
+my $db = Models::Articles->new();
 
 
 my %post = ('login' => 'cr7',);
 
-#print Dumper $db->createUser();
+print Dumper $db->getAll();
 
-use Crypt::PBKDF2;
 
-my $password = "12345";
-my $hash = $pbkdf2->generate($password);
 
 
 

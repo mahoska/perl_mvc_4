@@ -1,7 +1,7 @@
 $regform=<<HTML;
 <h2>Registration</h2>
 
-<form method="post" role="form" action="index.pl?route=registration/registration">
+<form method="post" role="form" action="index.pl?route=auth/registration">
      <div class="form-group">
         <label class='control-label' for="login" >Login:</label>
         <input type="text" name="login" class="form-control" id="login" placeholder="Enter login" value=""/>

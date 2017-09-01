@@ -2,7 +2,7 @@ package Helpers::Security;
 use strict;
 use warnings FATAL => 'all';
 
-use Crypt::PBKDF2;
+use Crypt::Password;
 
 sub new{
     my $class = ref($_[0])||$_[0];

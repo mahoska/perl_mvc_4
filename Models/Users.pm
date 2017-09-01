@@ -40,11 +40,11 @@ sub createUser
 
 sub issetUser
 {
-    my($self, $login, $password) = @_;
+    my($self, $data) = @_;
 
     $model->select($table);
-    $model->where('login', $login);
-    $model->_where('password', $password);
+    $model->where('login', $data->{'login'});
+    $model->_where('password', $data->{'password'});
     $model->limit(1);
     my $res = $model->execute();
     return $model->geNumRows($res);

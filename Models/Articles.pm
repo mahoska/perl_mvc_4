@@ -27,9 +27,18 @@ sub getAll
 
     $model->select($table);
     $model->_join('left', 'users', 'users.id = articles.user_id');
-    $model->orderBy('create_at');
+    $model->orderBy('date');
+    my $query = $model->execute();
+    return $model->getDataHash($query);
+}
+
+sub getOne
+{
+    my ($self, $articleId) = @_;
+    $model->select($table);
+    $model->where('id', $articleId);
     my $sql = $model->execute();
-    return $model->getDataHash($sql);
+    return $model->getDataHash($sql); 
 }
 
 sub getByUserId
