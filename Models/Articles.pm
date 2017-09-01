@@ -43,17 +43,19 @@ sub getByUserId
     return $model->getDataHash($sql);
 }
 
+sub createArticle
+{
+    my($self, $data) = @_;
+    return $model->insert($table, \%$data);
+}
+
 sub updateArticle
 {
     my ($self, $data, $articleId) = @_;
     return $model->update($table, \%$data, $articleId);
 }
 
-sub createArticle
-{
-    my($self, $data) = @_;
-    return $model->insert($table, \%$data);
-}
+
 
 sub deleteArticle
 {

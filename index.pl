@@ -9,7 +9,8 @@ use lib dirname(__FILE__).'/Views/';
 use lib dirname(__FILE__).'/Libs/';
 use lib dirname(__FILE__).'/Controllers/';
 use lib dirname(__FILE__).'/Models/';
-use CGI::Carp qw(fatalsToBrowser); 
+use lib dirname(__FILE__).'/Helpers/';
+use CGI::Carp qw(fatalsToBrowser);
 use DBI;
 
 use Libs::Router;
