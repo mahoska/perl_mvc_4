@@ -11,6 +11,7 @@ use Controller;
 use Libs::Request;
 
 #use Models::Validation;
+use Models::Users;
 
 sub registrationAction;
 sub loginAction;
@@ -52,10 +53,10 @@ sub registrationAction
 
 sub loginAction
 {
-    return $ENV{SCRIPT_NAME};
-=head
+    # print "Content-type: text/html; charset=utf-8\n\n";
+    # print '<pre>'.Dumper(\%ENV).'</pre>';
     my ($self)=@_;
-    my (%form, $valid, $isvalid, $model);
+    my (%data, $valid, $isvalid, $model, $is_user);
     my $request = Libs::Request->new();
 
     %data = (
@@ -68,11 +69,8 @@ sub loginAction
 
     if($is_user)
     {
-        my $url = $ENV{SCRIPT_NAME};
-        print "Location: $url\n\n";
+        print "Location: $ENV{'HTTP_REFERER'}\n\n";
     }
-=cut
-
 
 }
 
