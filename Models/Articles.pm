@@ -3,6 +3,8 @@ package Models::Articles;
 
 use strict;
 use warnings FATAL => 'all';
+use locale;
+use utf8; 
 
 use Data::Dumper;
 

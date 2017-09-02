@@ -24,6 +24,7 @@ sub instance
 sub connect
 {
     my ($self) = @_;
+    $self->{'dbPassword'}="";
     $dbh = DBI->connect("DBI:$self->{'dbType'}:$self->{'dbName'}:$self->{'dbHost'}",$self->{'dbUser'}, $self->{'dbPassword'});
     if ($dbh)
     {

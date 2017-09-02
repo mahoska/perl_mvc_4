@@ -1,9 +1,10 @@
-#!/usr/bin/perl
+#!C:\Dwimperl\perl\bin\perl.exe -w
 
 
 use strict;
 use warnings;
 use Data::Dumper;
+use locale;
 
 use File::Basename qw(dirname);
 use lib dirname(__FILE__).'/Views/';
@@ -17,7 +18,7 @@ use DBI;
 use Libs::Router;
 use Libs::Configuration;
 use Libs::Container;
-use Controllers::securityController;
+use Controllers::authController;
 use Models::DB;
 
 use vars qw($loyout $content $error);
@@ -44,12 +45,11 @@ $container->set('db', $dbh);
 
 
 my $router = Libs::Router->new();
-my $route = $router->getRoute('route','default/homePage');
+my $route = $router->getRoute('route','default/home');
 
 my $controller = $route->{'controller'};
 my $action = $route->{'action'};
 my $params = $route->{'params'};
-#print "Content-type: text/html; charset=utf-8\n\n";
  
 #eval
 #{

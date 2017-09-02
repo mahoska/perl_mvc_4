@@ -1,4 +1,4 @@
-package Controllers::registrationController;
+package Controllers::authController;
 
 use strict;
 use warnings;

@@ -19,30 +19,30 @@ $loyout = <<HTML;
   </head>
 
   <body>
-    <!--nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"-->
-    <nav class="navbar  navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!--nav class="navbar  navbar-fixed-top" role="navigation"-->
       <div class="container">
         <div class="navbar-header">
               <a class="navbar-brand" href="#">Perl</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.pl?route=articles/showAll">Articles</a></li>
-            <li><a href="index.pl?route=registration/registration">Registration</a></li>
-            <li><a href="index.pl?route=security/isUser">Test</a></li>
+            <li><a href="index.pl?route=default/home">Articles</a></li>
           </ul>
 
-          <form class="navbar-form navbar-right" action="index.pl?route=auth/login" method="post">
+          <form class="navbar-form  navbar-right login-form" action="index.pl?route=auth/login" method="post">
             <div class="form-group">
-              <label for="login">Name</label>
-              <input type="text" class="form-control" id="login" placeholder="" name="login">
+              <label for="login">Login</label>
+              <input type="text" class="form-control input-sm" id="login" placeholder="" name="login">
             </div>
             <div class="form-group">
               <label for="pass">Email</label>
-              <input type="password" class="form-control" id="pass" placeholder="" name="password">
+              <input type="password" class="form-control input-sm" id="pass" placeholder="" name="password">
             </div>
-            <button type="submit" class="btn btn-default">Login</button>
+            <button type="submit" class="btn btn-info  btn-sm">Login</button>
+            <a href="index.pl?route=auth/registration" class="btn btn-info  btn-sm">Registration</a>
           </form>
+          
         </div><!--/.nav-collapse -->
       </div><!--/.container -->
     </nav>
@@ -52,9 +52,9 @@ $loyout = <<HTML;
            $content
      </div>
 
-    <footer>
+    <!--footer>
         Copyright &copy; 2017
-    </footer>
+    </footer-->
     
     <!-- Bootstrap core JavaScript
     ================================================== -->
