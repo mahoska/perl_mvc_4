@@ -52,15 +52,21 @@ sub check
 {
     my ($self, $sid) = @_;
     %user_info = ();
+    
     if(! ($sid = $cgi->cookie($cookieName)) )
     {
         return 0;
     }
 
-    $session = new CGI::Session(undef, $sid, {Directory=> $dirName});
+    $session = CGI::Session->load(undef, $sid, {Directory=> $dirName});
     my $id = $session->id();
+    
+    if ($session->is_expired())
+    {
+        return 0;
+    }
 
-    if (! ($id == $sid) )
+    if (! ( ($id == $sid) and $id and $sid ) )
     {
         return 0;
     }
@@ -85,6 +91,8 @@ sub delete
     my ($self, $path) = @_;
 
     $session->delete();
+    $session->flush();
+
     my $cookie = $cgi->cookie($cookieName => '');
     print $cgi->header( -cookie=>$cookie, -location=>$path );
 }

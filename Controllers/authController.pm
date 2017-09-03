@@ -29,7 +29,8 @@ sub registrationAction
     my $session =  $self->get('session');
     if( $session->check())
     {
-      print "Location: $ENV{'SCRIPT_NAME'}\n\n";
+      #print "Location: $ENV{'SCRIPT_NAME'}\n\n";
+      print "Location: index.pl\n\n";
     }
 
  
@@ -57,7 +58,8 @@ sub registrationAction
             my %user_data = ('login'=> $form{'login'},  'password'=> $form{'password'});
             $user_id = $model->issetUser(\%user_data);
            
-            $session->start( $form{'login'}, $user_id,  $ENV{'SCRIPT_NAME'});            
+            #$session->start( $form{'login'}, $user_id,  $ENV{'SCRIPT_NAME'});       
+            $session->start( $form{'login'}, $user_id,  "index.pl");            
 
         }
 
@@ -68,7 +70,7 @@ sub registrationAction
     require "users/registration.pl";    
     return $regform;
 
-}
+    }
 
    require "users/registration.pl";
    return $regform;
@@ -82,26 +84,35 @@ sub loginAction
     my $request = Libs::Request->new();
     
     my $session =  $self->get('session');
-    if( $session->check())
+
+    if( $session->check() )
     {
-      print "Location: $ENV{'SCRIPT_NAME'}\n\n";
-    } 
-    
-    %data = (
-        'login'=> $request->getData('login'),
-        'password'=> $request->getData('password')
-    );
-
-    $model = Models::Users->new($self->get('model'), $self->get('db'));
-    $user_id =  $model->issetUser(\%data);
- 
-    if($user_id)
-    { 
-        $session->start( $data{'login'}, $user_id , $ENV{'SCRIPT_NAME'});  
+        print "Location: index.pl\n\n";
     }
-    
-    print "Location: $ENV{'HTTP_REFERER'}\n\n";
 
+    if (! $session->check() )
+    {
+        %data = (
+            'login'=> $request->getData('login'),
+            'password'=> $request->getData('password')
+        );
+
+        $model = Models::Users->new($self->get('model'), $self->get('db'));
+        $user_id =  $model->issetUser(\%data);
+
+        if (!$user_id)
+        {
+            # TODO: Add ERROR message
+            print "Location: index.pl\n\n";
+        }
+    
+        if($user_id)
+        { 
+            $session->start( $data{'login'}, $user_id , 'index.pl');  
+        }
+    }
+        #print "Location: $ENV{'HTTP_REFERER'}\n\n";
+        #print "Location: $ENV{'SCRIPT_NAME'}\n\n";
 }
 
 sub logoutAction
@@ -109,12 +120,13 @@ sub logoutAction
     my ($self) = @_;
     
     my $session =  $self->get('session');
+
     if( !$session->check())
     {
-      print "Location: $ENV{'SCRIPT_NAME'}\n\n";
+      print "Location: index.pl\n\n";
     } 
     
-    $session->delete($ENV{'SCRIPT_NAME'});
+    $session->delete('index.pl');
 }
 
 

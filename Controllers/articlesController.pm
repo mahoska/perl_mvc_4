@@ -25,10 +25,11 @@ sub userArticlesAction
     my ($self) = @_;
     my ($self, $userId) = @_;
 
-    my $session =  Libs::Session->new($self->get('cookieData')->{'dirPath'}, $self->get('cookieData')->{'cookieName'});
+    my $session =  $self->get('session');
     if(!$session->check())
     {
-      print "Location: $ENV{'SCRIPT_NAME'}\n\n";
+      #print "Location: $ENV{'SCRIPT_NAME'}\n\n";
+      print "Location: index.pl\n\n";
     }
     
     # my $model = Models::Articles->new($self->get('model'), $self->get('db'));
