@@ -9,12 +9,12 @@ $loyout = <<HTML;
     <meta name="author" content="">
     
    
-    <title>Articles</title>
-    
-    <link rel="stylesheet" href="webroot/css/style.css" />
+    <title>Camel Team</title>
+    <link rel="icon" href="webroot/img/camels.ico" type="image/x-icon"> 
     
     <!-- Bootstrap core CSS -->
     <link href="webroot/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="webroot/css/style.css" />
 
   </head>
 
@@ -23,20 +23,34 @@ $loyout = <<HTML;
     <!--nav class="navbar  navbar-fixed-top" role="navigation"-->
       <div class="container">
         <div class="navbar-header">
-              <a class="navbar-brand" href="#">Perl</a>
+              <a class="navbar-brand" href="index.pl?route=default/authors">Perl</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.pl?route=default/home">Articles</a></li>
+            <li><a href="index.pl?route=default/home">Home</a></li>
           </ul>
+          
+                    <form class="navbar-form  navbar-right">
+          <div class="form-group">
+            <a href="index.pl?route=articles/userArticles/$user_id" class="$auth user_article">My Articles</a>
+          </div>
+           <div class="form-group">
+              <a href="index.pl?route=user/profilInfo/$user_id" class="$auth btn btn-default  btn-sm">
+                <u>You are logged in as:</u> <span class="login"><strong>$user_log</strong></span>
+              </a>
+            </div>
+            <div class="form-group">
+              <a href="index.pl?route=auth/logout" class="$auth btn btn-info  btn-sm">Logout</a>
+            </div>
+          </form>
 
-          <form class="navbar-form  navbar-right login-form" action="index.pl?route=auth/login" method="post">
+          <form class="navbar-form  navbar-right login-form $_auth" action="index.pl?route=auth/login" method="post">
             <div class="form-group">
               <label for="login">Login</label>
               <input type="text" class="form-control input-sm" id="login" placeholder="" name="login">
             </div>
             <div class="form-group">
-              <label for="pass">Email</label>
+              <label for="pass">Password</label>
               <input type="password" class="form-control input-sm" id="pass" placeholder="" name="password">
             </div>
             <button type="submit" class="btn btn-info  btn-sm">Login</button>
@@ -59,7 +73,7 @@ $loyout = <<HTML;
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <script src="webroot/js/jquery.js"></script>
-    <script src="/webroot/js/script.js"></script>
+    <script src="webroot/js/script.js"></script>
     <script src="webroot/js/bootstrap.min.js"></script>
   </body>
 </html>

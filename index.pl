@@ -1,4 +1,5 @@
-#!C:\Dwimperl\perl\bin\perl.exe -w
+#!"C:\xampp\perl\bin\perl.exe"
+##!C:\Dwimperl\perl\bin\perl.exe -w
 
 
 use strict;
@@ -20,16 +21,18 @@ use Libs::Configuration;
 use Libs::Container;
 use Controllers::authController;
 use Models::DB;
+use Libs::Session;
 
-use vars qw($loyout $content $error);
+use vars qw($loyout $content $error $auth $user_log $user_id $_auth);
 
 #read config
 my $config = (Libs::Configuration->new())->readConfig('webroot/config.xml');
 #mysqlparams
 my %dbMysql = ('dbType' => $config->{'dbType'}, 'dbName'=>$config->{'dbName'}, 'dbHost'=>$config->{'dbHost'}, 'dbUser'=>$config->{'dbUser'}, 'dbPassword'=> $config->{'dbPassword'});
-
+my %cookieData = ('cookieName'=>  $config->{'cookieName'}, 'dirPath' => $config->{'cookiePath'});
 #create container
 my $container = Libs::Container->new();
+#$container->set('cookieData', \%cookieData);
 
 #save $dbh, $model in container
 my $dbModel = Models::DB->instance(\%dbMysql);
@@ -38,11 +41,15 @@ $container->set('model', $dbModel);
 my $dbh  = $dbModel->connect();
 $container->set('db', $dbh);
 
-#test pull
-  #my $security_controller = Controllers::securityController->new();
-  #$security_controller->setContainer($container);
-  # $security_controller->isUserAction();
+#is user login
+my $session =  Libs::Session->new($config->{'cookiePath'}, $config->{'cookieName'});
+$container->set('session', $session);
+my $is_user = $session->check();
 
+$auth  =  ($is_user) ? "visbl" : "displ";
+$_auth = ($is_user) ?  "displ" : "visbl";
+$user_log = $is_user ? $session->get('login') : "";
+$user_id = $is_user ? $session->get('id') : "";
 
 my $router = Libs::Router->new();
 my $route = $router->getRoute('route','default/home');

@@ -5,4 +5,6 @@
     <dbHost>localhost</dbHost>
     <dbUser>root</dbUser>
     <dbPassword></dbPassword>
+    <cookieName>CamelTeam</cookieName>
+    <cookiePath>C:/xampp/htdocs/perl-camel/webroot/tmp/</cookiePath>
 </configuration>

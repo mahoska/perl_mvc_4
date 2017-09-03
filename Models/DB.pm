@@ -15,7 +15,6 @@ sub instance
     my ($class, $args) = @_;
 
     $self = $args;
-    #$self->{'data'} = ();
 
     bless $self, $class;
     return $self;
@@ -59,8 +58,9 @@ sub insert
 
     foreach my $key (keys %{$hash})
     {
+        my $val = validString($hash->{$key});
         push @keys, $key;
-        push @values, "'$hash->{$key}'";
+        push @values, "'$val'";
     }
 
     my $keys = join(', ', @keys);
@@ -84,21 +84,25 @@ sub update
     $self->checkConnect();
 
     my @values =();
-    foreach my $key (keys %{$hash})
+    if ($id)
     {
-        push @values , join(' = ', $key, "'$hash->{$key}'");
-    }
+        foreach my $key (keys %{$hash})
+        {
+            my $val = validString($hash->{$key});
+            push @values, join(' = ', $key, "'$val'");
+        }
 
-    my $values = join(', ' , @values);
+        my $values = join(', ', @values);
 
-    my $sql = "UPDATE $table SET $values WHERE id = $id";
+        my $sql = "UPDATE $table SET $values WHERE id = $id";
 
-    my $query = $dbh->prepare($sql);
+        my $query = $dbh->prepare( $sql );
 
-    if ($query->execute())
-    {
-        $query->finish();
-        return 1;
+        if ($query->execute())
+        {
+            $query->finish();
+            return 1;
+        }
     }
     return 0;
 }
@@ -108,14 +112,18 @@ sub delete
     my($self, $table, $id) = @_;
     $self->checkConnect();
 
-    my $sql = "DELETE FROM $table  WHERE id = $id";
-    my $query = $dbh->prepare($sql);
-
-    if ($query->execute())
+    if ($id)
     {
-        $query->finish();
-        return 1;
+        my $sql = "DELETE FROM $table WHERE id = $id";
+        my $query = $dbh->prepare($sql);
+
+        if ($query->execute())
+        {
+            $query->finish();
+            return 1;
+        }
     }
+
     return 0;
 }
 
@@ -134,7 +142,15 @@ sub where
 sub _where
 {
     my ($self, $key, $value, $type) = @_;
-    $sql .= ($type ? uc ($type) : " AND ")."$key = '".$value."'";
+    $type ||= " AND ";
+    $sql .= " ".uc ($type)." $key = $value";
+}
+
+sub _whereMd5
+{
+    my ($self, $key, $value, $type) = @_;
+    $type ||= " AND ";
+    $sql .= " ".uc ($type)."$key = MD5('$value')";
 }
 
 sub limit
@@ -149,16 +165,36 @@ sub orderBy
     $sql .= " ORDER BY $field ". ($sort ? $sort : 'ASC');
 }
 
+
 sub execute
 {
     my($self) = @_;
     my $query = $dbh->prepare($sql);
+
     if ($query->execute())
     {
         return $query;
     }
     return 0;
 }
+
+sub createNewUser
+{
+    my($self, $table, $data) = @_;
+    $self->checkConnect();
+
+    my $sql = "INSERT INTO $table (login, password, email) VALUES ('".validString($data->{login})."', MD5('$data->{password}'), '".validString($data->{email})."')";
+
+    my $query = $dbh->prepare($sql);
+
+    if ($query->execute())
+    {
+        $query->finish();
+        return 1;
+    }
+    return 0;
+}
+
 
 sub getDataHash
 {
@@ -211,6 +247,12 @@ sub DESTROY
     }
 }
 
-
+sub validString
+{
+    my ($string) = @_;
+    $string =~ s/<(?:[^>'"]*|(['"]).*?\1)*>//ig;
+    $string =~ s/^\s+|\s+$//g;
+    return $string;
+}
 
 1;

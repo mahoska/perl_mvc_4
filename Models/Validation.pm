@@ -1,9 +1,10 @@
+# the package did user10 except for some methods
 package Models::Validation;
 
 use strict;
 use warnings FATAL => 'all';
 use Data::Dumper;
-#use Email::Valid;
+
 
 sub new
 {
@@ -78,40 +79,16 @@ sub clearArticle
     }
 }
 
-# Correct email and remove all spaces
+# Email validation /user15/
 sub clearEmail
 {
     my($self, $string) = @_;
 
-    if ($string)
-    {
-        if ($string !~ /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z0-9]+)(\]?)+$/) 
-        {
-            return 0;
-        }
-        # my $check = Email::Valid->new();
-        #$string = $check->address($string);
-        #$string = 'lamburii@gmail.com';
-        #$string = $self->clearWord($string);
-        $string =~ s/[^-A-Za-z0-9_.@]+?//g;
-        #$string =~ s/^[a-z0-9.]+\@[a-z0-9.-]+$//g;
-        
-        if ($string !~ /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z0-9]+)(\]?)+$/) 
-        {
-            return 0;
-        }
-
-        if ($string and length($string) <= 7)
-        {
-            return 0;
-        }
-
-        return $string;
-    }
-    else
-    {
-        return 0;
-    }
+    return 0 if !$string;
+    
+    my $is_email_valid = $string =~ /^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?(\.)[A-Za-z0-9]{2,3}$/i;
+ 
+    return $is_email_valid ? 1 : 0 ;
 
 }
 
@@ -126,21 +103,17 @@ sub checkLoginForm
     return %hash;
 }
 
-# Processing registration form data
+# Processing registration form data  /user15/
 sub checkRegForm
 {
-    my($self, %hash) = @_;
-
-    $hash{'login'} = $self->clearWord($hash{'login'});
-    $hash{'email'} = $self->clearEmail($hash{'email'});
-    $hash{'password'} = $self->clearWord($hash{'password'});
-    $hash{'password_v'} = $self->clearWord($hash{'password_v'});
-    if ($hash{'password'} == $hash{'password_v'})
-    {
-        $hash{'password_v'} = 1;
-    }
-    
-    return %hash;    
+     my($self, %hash) = @_;
+     return ('status'=> 0, 'err' => "uncorrect login") if !($self->clearWord($hash{'login'}));    
+     return ('status'=> 0, 'err' =>"uncorrect password") if !($self->clearWord($hash{'password'}));
+     $hash{'password_v'} = $self->clearWord($hash{'password_v'});
+     return ('status'=> 0, 'err' =>"password mismatch") if !($self->clearWord($hash{'password_v'})  eq  $self->clearWord($hash{'password'}));
+     return ('status'=> 0, 'err' =>"uncorrect email") if !($self->clearEmail($hash{'email'}));
+      
+    return ('status'=> 1);    
 }
 
 # Processing email user form data

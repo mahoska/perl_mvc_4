@@ -14,11 +14,7 @@ use Controller;
 
 use Models::Articles;
 sub homeAction;
-
-sub new{
-    my $class = ref($_[0])||$_[0];
-    return bless{}, $class;
-}
+sub authorsAction;
 
 sub homeAction
 {
@@ -29,6 +25,13 @@ sub homeAction
 
     require 'articles/articles.pl';
     return $content; 
+}
+
+sub authorsAction
+{
+     my ($self) = @_;
+     require 'authors/camel_team.pl';
+     return $content; 
 }
 
 1;

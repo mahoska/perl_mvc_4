@@ -5,83 +5,48 @@ use warnings;
 
 use Data::Dumper;
 
-use vars qw(@ISA $form @data);
+use vars qw(@ISA  $content @data);
 use Controller;
 use Models::Articles;
 use Libs::Request;
 use Time::Piece;
+use Libs::Session;
 
 @ISA = qw(Controllers::Controller);
 
-sub new
-{
-    my $class = ref($_[0])||$_[0];
-    return bless{}, $class;
-}
 
+sub createAction;
+sub editAction;
+sub deleteAction;
+sub userArticlesAction;
 
-sub createAction
+sub userArticlesAction
 {
     my ($self) = @_;
-    my $request = Libs::Request->new();
+    my ($self, $userId) = @_;
 
-    # if ($request->isPost())
-    # {
-
-    my %data = (
-        'title'=>  'article',
-        'content'=> 'text',
-        'user_id'=> '1',
-        'date'=> localtime->strftime('%Y-%m-%d')
-    );
-
-    my $model = Models::Articles->new($self->get('model'), $self->get('db'));
-    $model->createArticle(\%data);
-#my $url = "http://www.perl.com/CPAN/";
-#print "Location: $url\n\n";
-#exit;
-#}
-}
-
-sub editAction
-{
-    my ($self, $articleId) = @_;
-
-    my $model = Models::Articles->new($self->get('model'), $self->get('db'));
-    my $request = Libs::Request->new();
-
-    @data = $model->getOne($articleId);
-
-    if ($request->isPost())
+    my $session =  Libs::Session->new($self->get('cookieData')->{'dirPath'}, $self->get('cookieData')->{'cookieName'});
+    if(!$session->check())
     {
-        my %data = (
-            'title'=>  $request->getData('title'),
-            'content'=> $request->getData('content'),
-        );
-
-        $model->updateArticle(\%data, $articleId);
-        my $url = "/";
-        print "Location: $url\n\n";
-        exit;
+      print "Location: $ENV{'SCRIPT_NAME'}\n\n";
     }
-    require "articles/edit.pl";
-    return $form;
-}
+    
+    # my $model = Models::Articles->new($self->get('model'), $self->get('db'));
+    # my $request = Libs::Request->new();
+    # $data = $model->getByUserId($userId);
+    
+    $data[0]->{'title'} = "Italy opens up island of Montecristo to tourists";
+    $data[0]->{'id'} = 3;
+    $data[1]->{'title'} = "Famed Roman statue 'not ancient' ";
+    $data[1]->{'id'} = 4;
+    $data[2]->{'title'} = "Japan centenarians at record high";
+    $data[2]->{'id'} = 2;
 
-sub deleteAction
-{
-    my ($self, $articleId) = @_;
-
-    if ($articleId)
-    {
-        my $model = Models::Articles->new($self->get('model'), $self->get('db'));
-        $model->deleteArticle($articleId);
-
-        #my $url = "/";
-        #print "Location: $url\n\n";
-        #exit;
-    }
-
+    
+   
+    
+    require 'articles/user_articles.pl';
+    return $content; 	 
 }
 
 1;

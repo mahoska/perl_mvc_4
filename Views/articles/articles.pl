@@ -1,4 +1,3 @@
-
 $articles = '';
 
 foreach $arg(@data)

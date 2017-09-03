@@ -35,7 +35,7 @@ sub getUserById
 sub createUser
 {
     my($self, $data) = @_;
-    return $model->insert($table, \%$data);
+    return $model->createNewUser($table, \%$data);
 }
 
 sub issetUser
@@ -44,10 +44,10 @@ sub issetUser
 
     $model->select($table);
     $model->where('login', $data->{'login'});
-    $model->_where('password', $data->{'password'});
+    $model->_whereMd5('password', $data->{'password'});
     $model->limit(1);
     my $res = $model->execute();
-    return $model->geNumRows($res);
+    return $model->getOne($res, 'id');
 }
 
 sub updateUser

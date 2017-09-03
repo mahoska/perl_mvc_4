@@ -72,3 +72,44 @@ footer{
 .login-form label{
     color:#9D9D9D;
 }
+
+.displ{
+   display: none;
+}
+
+.visbl{
+   display:  block;
+}
+
+.user_article{
+     color:#9D9D9D;
+     margin-right:20px;
+}
+
+.login{
+    color: #5BC0DE;
+    /*color: #3170A6;*/
+}
+
+/*******************************columns-wrap***********************************/
+.columns-wrap{
+    background: #6DC5DD;
+    color: #fff;
+    padding: 30px 60px;
+    text-align: left;
+}
+
+.columns-left,
+.columns-middle,
+.columns-right
+{
+    float:left;
+    width: 33%;
+    padding-left: 4%;
+    padding-right: 3%;
+}
+
+.columns-wrap img{
+    max-height: 250px;
+     min-height: 250px;
+}
