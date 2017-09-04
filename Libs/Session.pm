@@ -1,3 +1,4 @@
+#create user_10
 package Libs::Session;
 
 use strict;
@@ -16,12 +17,14 @@ my %user_info;
 my $session;
 my $dirName;
 my $cookieName;
+my $cookieLife;
 
 sub new
 {
     my $class = ref($_[0])||$_[0];
     $cookieName = $_[2];
     $dirName = $_[1];
+    $cookieLife = $_[3];
     %user_info = ();
 
     return bless{}, $class;
@@ -32,10 +35,13 @@ sub new
 sub start
 {
     my ($self, $login, $id, $path) = @_;
-
+    if (! ( (-d 'webroot/tmp') and (-R 'webroot/tmp') and (-W 'webroot/tmp') and (-X 'webroot/tmp') ) )
+    {
+        die $@="problem with session file";
+    }
     $session = new CGI::Session("driver:File", undef, {Directory=> $dirName });
 
-    $session->expire('+1h');
+    $session->expire($cookieLife);
     $session->param('login', $login);
     $session->param('id', $id);
 

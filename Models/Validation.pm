@@ -1,4 +1,4 @@
-# the package did user10 except for some methods
+# the package create user10 except for some methods
 package Models::Validation;
 
 use strict;
@@ -79,7 +79,7 @@ sub clearArticle
     }
 }
 
-# Email validation /user15/
+# Email validation /**user_15**/
 sub clearEmail
 {
     my($self, $string) = @_;
@@ -103,7 +103,7 @@ sub checkLoginForm
     return %hash;
 }
 
-# Processing registration form data  /user15/
+# Processing registration form data  /**user_15**/
 sub checkRegForm
 {
      my($self, %hash) = @_;

@@ -7,4 +7,8 @@
     <dbPassword></dbPassword>
     <cookieName>CamelTeam</cookieName>
     <cookiePath>C:/xampp/htdocs/perl-camel/webroot/tmp/</cookiePath>
+    <cookieLife>+1h</cookieLife>
 </configuration>
+
+
+<!---create user_15-->

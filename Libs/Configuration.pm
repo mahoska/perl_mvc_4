@@ -1,9 +1,9 @@
+#create user_15
 package Libs::Configuration;
 
 use strict;
 use warnings;
 use XML::Simple;
-use Data::Dumper;
 
 sub new;
 sub readConfig;
@@ -18,7 +18,11 @@ sub readConfig
 {
  my ($self, $filename) = @_;
  my $simple = XML::Simple->new();
- my $data = $simple->XMLin($filename); 
+ if (! ( (-e $filename) and (-R $filename) ) )
+ {
+    die $@="file not found!!!";
+ }
+ my $data = $simple->XMLin($filename);
 
  return $data;
 }

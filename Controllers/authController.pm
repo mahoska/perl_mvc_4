@@ -1,3 +1,4 @@
+#create user_15
 package Controllers::authController;
 
 use strict;
@@ -8,7 +9,6 @@ use Controller;
 @ISA = qw(Controllers::Controller);
 
 use Libs::Request;
-
 use Models::Validation;
 use Models::Users;
 use Libs::Session;
@@ -29,7 +29,6 @@ sub registrationAction
     my $session =  $self->get('session');
     if( $session->check())
     {
-      #print "Location: $ENV{'SCRIPT_NAME'}\n\n";
       print "Location: index.pl\n\n";
     }
 
@@ -57,8 +56,7 @@ sub registrationAction
         {
             my %user_data = ('login'=> $form{'login'},  'password'=> $form{'password'});
             $user_id = $model->issetUser(\%user_data);
-           
-            #$session->start( $form{'login'}, $user_id,  $ENV{'SCRIPT_NAME'});       
+                 
             $session->start( $form{'login'}, $user_id,  "index.pl");            
 
         }
@@ -102,7 +100,6 @@ sub loginAction
 
         if (!$user_id)
         {
-            # TODO: Add ERROR message
             print "Location: index.pl\n\n";
         }
     
@@ -111,8 +108,6 @@ sub loginAction
             $session->start( $data{'login'}, $user_id , 'index.pl');  
         }
     }
-        #print "Location: $ENV{'HTTP_REFERER'}\n\n";
-        #print "Location: $ENV{'SCRIPT_NAME'}\n\n";
 }
 
 sub logoutAction

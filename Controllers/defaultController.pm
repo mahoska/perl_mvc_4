@@ -1,10 +1,9 @@
+#create user_10
 package Controllers::defaultController;
-
 
 use strict;
 use warnings;
 
-use Data::Dumper;
 use vars qw($content @data);
 
 use vars qw(@ISA);

@@ -1,9 +1,9 @@
+#create user_11
 package Controllers::articlesController;
 
 use strict;
 use warnings;
 
-use Data::Dumper;
 
 use vars qw(@ISA  $content @data);
 use Controller;
